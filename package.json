@@ -1,0 +1,24 @@
+{
+  "name": "artgaleryjson",
+  "version": "1.0.0",
+  "description": "CA Project 3rd year CCT College ",
+  "main": "src/api/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/masp42/artgaleryjson.git"
+  },
+  "keywords": [
+    "api",
+    "json",
+    "file"
+  ],
+  "author": "Marcelo Pugliesi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/masp42/artgaleryjson/issues"
+  },
+  "homepage": "https://github.com/masp42/artgaleryjson#readme"
+}
