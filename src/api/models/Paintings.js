@@ -14,6 +14,8 @@ exports.getPaintings = function() {
         return false
     }
 };
+
+
 //model to get one register by property id
 exports.getPaintingDetail = function(painting_id) {
     try {
@@ -33,6 +35,9 @@ exports.getPaintingDetail = function(painting_id) {
         return false
     }
 }
+
+
+
 //model to get one register by property title
 exports.getPaintingByTitle = function(title) {
     try {
@@ -55,6 +60,9 @@ exports.getPaintingByTitle = function(title) {
         return false
     }
 }
+
+
+
 //model to insert register with object send from form
 exports.createPainting = function(newRegisterData) {
     try {
@@ -67,7 +75,7 @@ exports.createPainting = function(newRegisterData) {
         //push new data to object with all registers
         allRegistersData.push(newRegisterData)
 
-        //convert to json notation and write  new data in json file 
+        //convert to json notation and write new data in json file 
         fs.writeFileSync(paintingsJsonFile, JSON.stringify({"data": allRegistersData}))
         return true
    
@@ -76,6 +84,8 @@ exports.createPainting = function(newRegisterData) {
         return false
     }
 }
+
+
 //model to delete one register by id
 exports.deletePainting = function(painting_id) {
     try {
@@ -96,6 +106,9 @@ exports.deletePainting = function(painting_id) {
         return false
     }
 }
+
+
+
 //function to convert base64 string to image file
 exports.base64ToImage = function(fileName, base64String) {
 
@@ -119,6 +132,9 @@ exports.base64ToImage = function(fileName, base64String) {
     }
     
 }
+
+
+
 //function to delete image file in server
 exports.removeImageFromServer = function(fileName) {
 
