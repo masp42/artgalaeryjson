@@ -82,7 +82,8 @@
                     }
                 }
 
-                // FINALLY ADD THE NEWLY CREATED TABLE WITH JSON DATA TO A CONTAINER.
+
+                // FINALLY ADD THE NEWLY CREATED TABLE WITH JSON DATA TO A CONTAINER
                 let divContainer = document.getElementById("tableListAll");
                 divContainer.innerHTML = "";
                 divContainer.appendChild(table);
