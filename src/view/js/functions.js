@@ -11,83 +11,92 @@
             await axios.get(APIUrl).then(response => {
                 
 
-                let allData = response.data.data;  
-                let timestamp = new Date().getTime();
-    
-                //Insert new fields, sort and remove others
-                for(let i=0; i < allData.length; i++){ 
-
-                    allData[i].painting = `
-                        <a href="../`+allData[i].image+`?date=`+timestamp+`">
-                            <img src="../`+allData[i].image+`?date=`+timestamp+`" class="tableImage">
-                        </a>
-                    `
-
-                    allData[i].name = allData[i].title
-
- 
-                    allData[i].actions = `
-                        <a href="#updatePainting" class="btnUpdate" onclick="listOne(`+allData[i].painting_id+`)">Edit</a> - 
-                        <a href="javascript:void(0);" onclick="deleteOne(`+allData[i].painting_id+`)">Delete</a>
-                    `
-                    //  removes the properties below from the object
-                    delete allData[i].description; 
-                    delete allData[i].artist; 
-                    delete allData[i].painting_id; 
-                    delete allData[i].title; 
-                    delete allData[i].image; 
-
+                if(response.data === false || response.data.data.length == 0){
+                    document.getElementById("tableListAll").innerHTML =  'No data found. Click in Insert data button to create register';
                 }
-           
+                else{
 
-                const listData = allData         
+                    let allData = response.data.data;  
+                    let timestamp = new Date().getTime();
     
-
-                // EXTRACT VALUE FOR HTML TABLE HEADER. 
-                let col = [];
-                for (let i = 0; i < listData.length; i++) {
-                    for (let key in listData[i]) {
-                        if (col.indexOf(key) === -1) {
-                            col.push(key);
+     
+                    //Insert new fields, sort and remove others
+                    for(let i=0; i < allData.length; i++){ 
+    
+                        allData[i].painting = `
+                            <a href="../`+allData[i].image+`?date=`+timestamp+`">
+                                <img src="../`+allData[i].image+`?date=`+timestamp+`" class="tableImage">
+                            </a>
+                        `
+    
+                        allData[i].name = allData[i].title
+    
+     
+                        allData[i].actions = `
+                            <a href="#updatePainting" class="btnUpdate" onclick="listOne(`+allData[i].painting_id+`)">Edit</a> - 
+                            <a href="javascript:void(0);" onclick="deleteOne(`+allData[i].painting_id+`)">Delete</a>
+                        `
+                        //  removes the properties below from the object
+                        delete allData[i].description; 
+                        delete allData[i].artist; 
+                        delete allData[i].painting_id; 
+                        delete allData[i].title; 
+                        delete allData[i].image; 
+    
+                    }
+               
+    
+                    const listData = allData         
+        
+    
+                    // EXTRACT VALUE FOR HTML TABLE HEADER. 
+                    let col = [];
+                    for (let i = 0; i < listData.length; i++) {
+                        for (let key in listData[i]) {
+                            if (col.indexOf(key) === -1) {
+                                col.push(key);
+                            }
                         }
                     }
+    
+                    // CREATE DYNAMIC TABLE.
+                    let table = document.createElement("table");
+                    table.classList.add('table');
+                    table.classList.add('table-striped');
+    
+    
+                    // CREATE HTML TABLE HEADER ROW USING THE EXTRACTED HEADERS ABOVE.
+    
+                    
+                    let tr = table.insertRow(-1);                   // TABLE ROW.
+    
+                    for (let i = 0; i < col.length; i++) {
+                        let th = document.createElement("th");      // TABLE HEADER.
+    
+                        th.innerHTML = col[i];  
+                        tr.appendChild(th);
+                    }
+    
+                    // ADD JSON DATA TO THE TABLE AS ROWS.
+                    for (let i = 0; i < listData.length; i++) {
+    
+                        tr = table.insertRow(-1);
+    
+                        for (let j = 0; j < col.length; j++) {
+                            let tabCell = tr.insertCell(-1);
+                            tabCell.innerHTML = listData[i][col[j]];
+                        }
+                    }
+    
+    
+                    // FINALLY ADD THE NEWLY CREATED TABLE WITH JSON DATA TO A CONTAINER
+                    let divContainer = document.getElementById("tableListAll");
+                    divContainer.innerHTML = "";
+                    divContainer.appendChild(table);
+    
                 }
-
-                // CREATE DYNAMIC TABLE.
-                let table = document.createElement("table");
-                table.classList.add('table');
-                table.classList.add('table-striped');
-
-
-                // CREATE HTML TABLE HEADER ROW USING THE EXTRACTED HEADERS ABOVE.
 
                 
-                let tr = table.insertRow(-1);                   // TABLE ROW.
-
-                for (let i = 0; i < col.length; i++) {
-                    let th = document.createElement("th");      // TABLE HEADER.
-
-                    th.innerHTML = col[i];  
-                    tr.appendChild(th);
-                }
-
-                // ADD JSON DATA TO THE TABLE AS ROWS.
-                for (let i = 0; i < listData.length; i++) {
-
-                    tr = table.insertRow(-1);
-
-                    for (let j = 0; j < col.length; j++) {
-                        let tabCell = tr.insertCell(-1);
-                        tabCell.innerHTML = listData[i][col[j]];
-                    }
-                }
-
-
-                // FINALLY ADD THE NEWLY CREATED TABLE WITH JSON DATA TO A CONTAINER
-                let divContainer = document.getElementById("tableListAll");
-                divContainer.innerHTML = "";
-                divContainer.appendChild(table);
-
 
             }).catch(error => console.error(error));
  
@@ -97,13 +106,15 @@
 
         async function listOne(id) {
 
+            let timestamp = new Date().getTime();
+
             // requisition of data contained in the link "APIUrl+'/'+id" using lib axios through the GET method
             await axios.get(APIUrl+'/'+id)
             .then(response => {
                 //change the values of inputs and image src to response data from API
                 document.querySelector("#updatePaintingId").value = response.data.data[0].result.painting_id
 
-                document.querySelector("#image_updateImage").src = '../'+response.data.data[0].result.image
+                document.querySelector("#image_updateImage").src = '../'+response.data.data[0].result.image+'?date=`+timestamp+'
 
                 document.querySelector("#updateTitle").value = response.data.data[0].result.title
                 document.querySelector("#updateDescription").value = response.data.data[0].result.description
