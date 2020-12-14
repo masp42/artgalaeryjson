@@ -20,5 +20,17 @@ app.get('/', (req, res) => {
 
 
 app.use('/api/paintings', paintingRoute);
+//if route nor found
+app.use((req, res, next) => {
+    const error = new Error('Not found');
+    error.status = 404;
+    next(error);
+});
+
+//default server error
+app.use((error, req, res, next) => {
+    res.status(error.status || 500);
+    return res.send({ error: error });
+});
 
 module.exports = app; //export to use this file configuration in others files

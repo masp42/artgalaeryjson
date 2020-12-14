@@ -6,14 +6,19 @@ const PaintingsModel = require('../models/Paintings');
 
 exports.getPaintings = async (req, res, next) => {
     try {
-        
-        //Call model function getPaintings()
-        const result = await PaintingsModel.getPaintings();
 
-        // convert result of function to object notation
-        const response = JSON.parse(result)
+        await PaintingsModel.generateDirectories()
 
-        return res.status(200).send(response);
+        setTimeout(function(){
+            //Call model function getPaintings()
+            const result = PaintingsModel.getPaintings();
+
+            // convert result of function to object notation
+            const response = JSON.parse(result)
+
+            return res.status(200).send(response);
+        }, 50);
+
     } catch (error) {
         return res.status(500).send({ error: error });
     }
@@ -24,6 +29,8 @@ exports.getPaintings = async (req, res, next) => {
 
 exports.getPaintingDetail = async (req, res, next)=> {
     try {
+
+        await PaintingsModel.generateDirectories()
 
         let painting_id = '';
 
@@ -36,18 +43,21 @@ exports.getPaintingDetail = async (req, res, next)=> {
             //error message
             return res.status(202).send({error: 'ID not defined'})
         }
-        //Call model function getPaintingDetail(painting_id)
-        const result = await PaintingsModel.getPaintingDetail(painting_id);
-        
-        //if not found register
-        if (!result) {
-            return res.status(404).send({error: 'painting not found'})
-        }
 
-        //format result to show in route
-        const response = {"data": [{result}]}
+        setTimeout(function(){
+            //Call model function getPaintingDetail(painting_id)
+            const result = PaintingsModel.getPaintingDetail(painting_id);
+            
+            //if not found register
+            if (!result) {
+                return res.status(404).send({error: 'painting not found'})
+            }
 
-        return res.status(200).send(response);   
+            //format result to show in route
+            const response = {"data": [{result}]}
+
+            return res.status(200).send(response);   
+        }, 50);
 
     } catch (error) {
         return res.status(500).send({ error: error });
@@ -58,6 +68,8 @@ exports.getPaintingDetail = async (req, res, next)=> {
 
 exports.createPainting = async (req, res, next) => {
     try {
+
+        await PaintingsModel.generateDirectories()
 
         //define object
         newRegisterData = {}
@@ -100,43 +112,46 @@ exports.createPainting = async (req, res, next) => {
             return res.status(500).send({error: 'base64 image is not valid'})
         }
 
-        //verify if this title exists in some register if json file
-        if(PaintingsModel.getPaintingByTitle(newRegisterData.title)){
-            return res.status(202).send({error: 'This title already exists'}) 
-        } 
+        setTimeout(function(){
 
-        //call function to insert data
-        const result = await PaintingsModel.createPainting(newRegisterData);
-        
-        //if result is not false, define formated data to send to route
-        if(result){
+            //verify if this title exists in some register if json file
+            if(PaintingsModel.getPaintingByTitle(newRegisterData.title)){
+                return res.status(202).send({error: 'This title already exists'}) 
+            } 
 
-            const link = req.protocol+'://'+req.get('host')+req.originalUrl
-            const response = {
-                message: 'Painting created sucessfully',
-                createdPainting: {
-                    painting_id: newRegisterData.painting_id,
-                    title: newRegisterData.title,
-                    description: newRegisterData.description,
-                    artist: {
-                        name: newRegisterData.artist.name,
-                        country: newRegisterData.artist.country,
-                        period: newRegisterData.artist.period
-                    },
-                    image: newRegisterData.image,
-                    request: {
-                        type: 'GET',
-                        description: 'Return all paintings',
-                        url: link
+            //call function to insert data
+            const result = PaintingsModel.createPainting(newRegisterData);
+            
+            //if result is not false, define formated data to send to route
+            if(result){
+
+                const link = req.protocol+'://'+req.get('host')+req.originalUrl
+                const response = {
+                    message: 'Painting created sucessfully',
+                    createdPainting: {
+                        painting_id: newRegisterData.painting_id,
+                        title: newRegisterData.title,
+                        description: newRegisterData.description,
+                        artist: {
+                            name: newRegisterData.artist.name,
+                            country: newRegisterData.artist.country,
+                            period: newRegisterData.artist.period
+                        },
+                        image: newRegisterData.image,
+                        request: {
+                            type: 'GET',
+                            description: 'Return all paintings',
+                            url: link
+                        }
                     }
                 }
+                return res.status(201).send(response);   
             }
-            return res.status(201).send(response);   
-        }
 
-        else{
-            return res.status(500).send({ error: 'Error at create painting' });
-        }
+            else{
+                return res.status(500).send({ error: 'Error at create painting' });
+            }
+        }, 50);
         
 
 

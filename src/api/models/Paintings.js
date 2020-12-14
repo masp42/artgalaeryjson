@@ -5,6 +5,7 @@ const paintingsJsonFile = 'src/api/json/paintings.json'; //Define path tp json f
 //model to get all registers
 exports.getPaintings = function() {
     try {
+
         //file system function to read json file
         const jsonData = fs.readFileSync(paintingsJsonFile)
         return jsonData;
@@ -150,4 +151,31 @@ exports.removeImageFromServer = function(fileName) {
         return false
     }
     
+}
+
+
+//Generate JSON file and folder uploads if not exists
+exports.generateDirectories = function(){
+
+    //generate folder uploads if not exists
+    if (!fs.existsSync('src/api/uploads/')){
+        fs.mkdirSync('src/api/uploads/');
+    }
+
+    const dir = 'src/api/json/';
+    const file = 'paintings.json';
+
+    if (!fs.existsSync(dir)){
+        fs.mkdirSync(dir);
+    }
+
+    //generate JSON files if not exists
+    if (!fs.existsSync(dir+file)){
+        fs.appendFile(dir+file, '{"data": []}', function (err) {
+            if (err) throw err;
+        });
+    
+
+        return true
+    }
 }
