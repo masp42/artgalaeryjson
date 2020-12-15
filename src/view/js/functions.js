@@ -44,7 +44,6 @@
                         delete allData[i].image; 
     
                     }
-               
     
                     const listData = allData         
         
