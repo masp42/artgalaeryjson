@@ -1,5 +1,6 @@
 const express = require('express'); //Use express to manage routes
 const fileUpload = require('express-fileupload'); //Use express-fileupload to allow receive form data
+var cors = require('cors') //Control request from origins
 
 const app = express();
 
@@ -12,6 +13,8 @@ app.use(
     express.static('src/api/uploads'), //Allow static file path - src/api/uploads
     fileUpload(),
 )
+
+app.use(cors()) //This is CORS-enabled for all origins
 
 /* VIEW route - GET method */
 app.get('/', (req, res) => {
