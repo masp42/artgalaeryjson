@@ -54,7 +54,13 @@ exports.getPaintingDetail = async (req, res, next)=> {
             }
 
             //format result to show in route
-            const response = {"data": [{result}]}
+            const response = {
+                "data": [
+                    {
+                        result
+                    }
+                ]
+            }
 
             return res.status(200).send(response);   
         }, 50);

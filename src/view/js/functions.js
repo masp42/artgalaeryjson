@@ -24,8 +24,8 @@
                     for(let i=0; i < allData.length; i++){ 
     
                         allData[i].painting = `
-                            <a href="../`+allData[i].image+`?date=`+timestamp+`">
-                                <img src="../`+allData[i].image+`?date=`+timestamp+`" class="tableImage">
+                            <a href="`+baseUrl+'/'+allData[i].image+`?date=`+timestamp+`">
+                                <img src="`+baseUrl+'/'+allData[i].image+`?date=`+timestamp+`" class="tableImage">
                             </a>
                         `
     
@@ -113,7 +113,7 @@
                 //change the values of inputs and image src to response data from API
                 document.querySelector("#updatePaintingId").value = response.data.data[0].result.painting_id
 
-                document.querySelector("#image_updateImage").src = '../'+response.data.data[0].result.image+'?date=`+timestamp+'
+                document.querySelector("#image_updateImage").src = baseUrl+'/'+response.data.data[0].result.image+'?date=`+timestamp+'
 
                 document.querySelector("#updateTitle").value = response.data.data[0].result.title
                 document.querySelector("#updateDescription").value = response.data.data[0].result.description

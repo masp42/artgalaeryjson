@@ -11,14 +11,15 @@ app.use(
     express.json(), //Receive JSON data
     express.static("src/view"), //Allow static file path - src/view
     express.static('src/api/uploads'), //Allow static file path - src/api/uploads
-    fileUpload(),
+    fileUpload() //allow form data upload
 )
 
 app.use(cors()) //This is CORS-enabled for all origins
 
 /* VIEW route - GET method */
 app.get('/', (req, res) => {
-    res.sendFile('src/view/index.html');
+    res.header("Access-Control-Allow-Origin", "*");
+    res.sendFile('src/view/');
 })
 
 
