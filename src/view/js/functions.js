@@ -1,4 +1,4 @@
-//base url without final bar 
+//base url without final bar  ------------------------------------------- WITHOUT FINAL BAR
         var baseUrl = 'https://3000-e5420465-4bc3-4d88-95ea-583f4ec2f9a3.ws-us03.gitpod.io'; 
         var pathAPI = '/api/paintings';
         var APIUrl = baseUrl+pathAPI;
