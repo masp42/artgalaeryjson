@@ -47,8 +47,6 @@ exports.getPaintingByTitle = function(title) {
         jsonData = (JSON.parse(jsonData)).data
         jsonData = jsonData.find( item => item.title == title )
 
-        console.log(jsonData)
-
         if(jsonData){
             return true
         }
