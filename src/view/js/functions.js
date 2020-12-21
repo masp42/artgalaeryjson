@@ -135,7 +135,7 @@
 
             data.append('image', document.querySelector("#createImage").value);
             data.append('title', document.querySelector("#createTitle").value);
-            data.append('description', document.querySelector("#createArtistName").value);
+            data.append('description', document.querySelector("#createDescription").value);
             data.append('artist_name', document.querySelector("#createArtistName").value);
             data.append('artist_country', document.querySelector("#createArtistCountry").value);
             data.append('artist_period', document.querySelector("#createArtistPeriod").value);
@@ -206,7 +206,7 @@
 
             data.append('image', document.querySelector("#updateImage").value);
             data.append('title', document.querySelector("#updateTitle").value);
-            data.append('description', document.querySelector("#updateArtistName").value);
+            data.append('description', document.querySelector("#updateDescription").value);
             data.append('artist_name', document.querySelector("#updateArtistName").value);
             data.append('artist_country', document.querySelector("#updateArtistCountry").value);
             data.append('artist_period', document.querySelector("#updateArtistPeriod").value);
